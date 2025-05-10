@@ -20,6 +20,12 @@ vim.opt.rtp:prepend(lazypath)
 -- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.lsp.config["fasmlsp"] = {
+        cmd = { 'node', '/home/sum1/Projects/fasmlsp/dist/server.js' },
+        filetypes = { 'fasm', 'asm', 'inc' },
+        settings = {},
+}
+vim.lsp.enable("fasmlsp")
 
 require("config.options")
 
