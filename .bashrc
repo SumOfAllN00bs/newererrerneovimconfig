@@ -23,6 +23,13 @@ if [ -d ~/.bashrc.d ]; then
     done
 fi
 unset rc
+
+cleanneovim() {
+    rm -rf $HOME/.cache/nvim/
+    rm -rf $HOME/.local/share/nvim/
+    rm -rf $HOME/.local/state/nvim/
+}
+
 alias q=exit
 alias :q=exit
 alias ov=nvim
