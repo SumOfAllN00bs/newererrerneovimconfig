@@ -4,7 +4,7 @@ return {
         { "williamboman/mason.nvim", opts = {} },
         "williamboman/mason-lspconfig.nvim",
         "WhoIsSethDaniel/mason-tool-installer.nvim",
-        { "j-hui/fidget.nvim",       opts = {} },
+        { "j-hui/fidget.nvim", opts = {} },
         "saghen/blink.cmp",
     },
     config = function()
@@ -105,33 +105,12 @@ return {
         local original_capabilities = vim.lsp.protocol.make_client_capabilities()
         local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
 
-        -- Mason-managed servers (these will be auto-installed)
         local mason_servers = {
             bashls = {},
             rust_analyzer = {},
             pyright = {},
-            lua_ls = {
-                settings = {
-                    Lua = {
-                        completion = {
-                            callSnippet = "Replace"
-                        },
-                        diagnostics = {
-                            globals = { "vim" }
-                        },
-                        workspace = {
-                            -- Make the server aware of Neovim runtime files
-                            library = vim.api.nvim_get_runtime_file("", true)
-                        },
-                        telemetry = {
-                            enable = false
-                        }
-                    }
-                }
-            },
         }
 
-        -- Local/custom servers (not managed by Mason)
         local custom_servers = {
             fasmlsp = {},
         }
@@ -147,6 +126,7 @@ return {
         require("mason-lspconfig").setup({
             ensure_installed = {},
             automatic_installation = false,
+            automatic_enable = true,
             handlers = {
                 function(server_name)
                     local server = mason_servers[server_name] or {}
@@ -156,10 +136,42 @@ return {
             },
         })
 
-        -- Setup custom/local servers separately
-        for server_name, server_config in pairs(custom_servers) do
-            server_config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server_config.capabilities or {})
-            require("lspconfig")[server_name].setup(server_config)
-        end
+        vim.lsp.config("lua_ls", {
+            cmd = { "lua-language-server" },
+            filetypes = { "lua" },
+            root_markers = { ".luarc.json", ".luarc.jsonc", ".git" },
+            capabilities = capabilities,
+            settings = {
+                Lua = {
+                    runtime = {
+                        version = "LuaJIT",
+                    },
+                    completion = {
+                        callSnippet = "Replace",
+                    },
+                    diagnostics = {
+                        globals = { "vim" },
+                    },
+                    workspace = {
+                        library = vim.api.nvim_get_runtime_file("", true),
+                        checkThirdParty = false,
+                    },
+                    telemetry = {
+                        enable = false,
+                    },
+                },
+            },
+        })
+
+        vim.lsp.config("fasmlsp", {
+            cmd = { "node", "/home/sum1/Projects/fasmlsp/dist/server.js" },
+            filetypes = { "f2", "fasm", "asm", "inc" },
+            root_markers = { ".git" },
+            capabilities = capabilities,
+            settings = {},
+        })
+
+        vim.lsp.enable("lua_ls")
+        vim.lsp.enable("fasmlsp")
     end,
 }
