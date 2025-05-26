@@ -1,6 +1,7 @@
 require("config.lazy")
 
 vim.cmd("colorscheme goodcolor")
+vim.cmd("cnoreabbrev messages Bmessages")
 
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     pattern = "*.f2",
