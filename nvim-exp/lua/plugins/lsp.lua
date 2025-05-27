@@ -111,10 +111,6 @@ return {
             pyright = {},
         }
 
-        local custom_servers = {
-            fasmlsp = {},
-        }
-
         local ensure_installed = vim.tbl_keys(mason_servers or {})
         vim.list_extend(ensure_installed, {
             "stylua",
@@ -135,7 +131,9 @@ return {
                 end,
             },
         })
-
+        local runtime_paths = vim.api.nvim_get_runtime_file("", true)
+        table.insert(runtime_paths, vim.fn.stdpath("data") .. "/lazy")
+        table.insert(runtime_paths, "${3rd}/luv/library")
         vim.lsp.config("lua_ls", {
             cmd = { "lua-language-server" },
             filetypes = { "lua" },
@@ -153,7 +151,7 @@ return {
                         globals = { "vim" },
                     },
                     workspace = {
-                        library = vim.api.nvim_get_runtime_file("", true),
+                        library = runtime_paths,
                         checkThirdParty = false,
                     },
                     telemetry = {

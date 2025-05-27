@@ -1,3 +1,4 @@
+vim.keymap.set("c", "wq", "update | bdelete")
 vim.g.have_nerd_font = true
 vim.g.python3_host_prog = "/usr/sbin/python3"
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
@@ -67,7 +68,7 @@ if vim.g.started_by_firenvim then
     vim.api.nvim_create_autocmd("UIEnter", {
         callback = function()
             vim.fn.timer_start(1000, function()
-                if vim.api.nvim_get_option("lines") < 10 then
+                if vim.opt.lines < 10 then
                     vim.opt.lines = 10
                 end
                 vim.cmd("startinsert")

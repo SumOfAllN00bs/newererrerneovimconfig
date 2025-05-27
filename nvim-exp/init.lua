@@ -18,6 +18,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
 })
 
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+---@diagnostic disable-next-line: inject-field
 parser_config.fasm2 = {
     install_info = {
         url = vim.fn.expand("~/Projects/tree_sitter_fasm2"),
