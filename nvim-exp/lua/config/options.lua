@@ -68,7 +68,7 @@ if vim.g.started_by_firenvim then
     vim.api.nvim_create_autocmd("UIEnter", {
         callback = function()
             vim.fn.timer_start(1000, function()
-                if vim.opt.lines < 10 then
+                if vim.opt.lines:get() < 10 then
                     vim.opt.lines = 10
                 end
                 vim.cmd("startinsert")

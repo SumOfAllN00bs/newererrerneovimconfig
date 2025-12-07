@@ -161,8 +161,18 @@ return {
             },
         })
 
+        vim.lsp.config("rust_analyzer", {
+            settings = {
+                checkOnSave = {
+                    allTargets = false,
+                },
+                cargo = {
+                    noDefaultFeatures = true,
+                },
+            },
+        })
         vim.lsp.config("fasmlsp", {
-            cmd = { "node", "/home/sum1/Projects/fasmlsp/dist/server.js" },
+            cmd = { "node", "/mnt/Dump/Projects/fasmlsp/dist/server.js" },
             filetypes = { "f2", "fasm", "asm", "inc" },
             root_markers = { ".git" },
             capabilities = capabilities,

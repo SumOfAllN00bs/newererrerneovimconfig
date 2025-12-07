@@ -28,7 +28,7 @@ return {
         },
 
         sources = {
-            default = { "git", "lsp", "path", "snippets", "buffer" },
+            default = { "git", "lsp", "path", "buffer" },
             per_filetype = {
                 sql = { "snippets", "dadbod", "buffer" },
             },
